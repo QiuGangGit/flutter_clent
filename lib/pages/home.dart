@@ -5,6 +5,19 @@ class HomeLogic extends GetxController {
   final HttpTool _http = HttpTool.getHttp(HomeLogic);
 
   List list = [{}, {}, {}, {}, {}];
+
+  @override
+  void onReady() {
+    super.onReady();
+    _http.get(
+      "/get_code",
+      query: {
+        "phone": 12345678901,
+      },
+      onSuccess: (body) {},
+      onError: (type, error) {},
+    );
+  }
 }
 
 class HomePage extends StatelessWidget {

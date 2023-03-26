@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       unknownRoute: Routes.unknown,
       defaultTransition: Transition.cupertino,
       routingCallback: Routes.observer,
-      enableLog: environment != Environment.release,
+      enableLog: true,
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(

@@ -33,18 +33,16 @@ class HttpService extends GetxService {
       connectTimeout: 60000,
       receiveTimeout: 300000,
       sendTimeout: 300000,
-      baseUrl: "",
+      baseUrl: baseUrl,
       responseType: ResponseType.json,
     ));
-    if (environment != Environment.release) {
-      _dio.interceptors.add(LogInterceptor(
-        request: false,
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: false,
-        responseBody: true,
-      ));
-    }
+    _dio.interceptors.add(LogInterceptor(
+      request: false,
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: false,
+      responseBody: true,
+    ));
     return this;
   }
 

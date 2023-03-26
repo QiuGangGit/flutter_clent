@@ -222,9 +222,7 @@ class HttpTool extends GetLifeCycle {
         if (onError != null) {
           onError(
             ErrorType.request,
-            environment == Environment.release
-                ? errorMsg
-                : response.statusMessage ?? errorMsg,
+            errorMsg,
           );
         }
       }
@@ -234,10 +232,7 @@ class HttpTool extends GetLifeCycle {
         type = ErrorType.cancel;
       }
       if (!isClosed && onError != null) {
-        onError(
-          type,
-          environment == Environment.release ? errorMsg : e.toString(),
-        );
+        onError(type, errorMsg);
       }
     }
     return response;
@@ -282,12 +277,7 @@ class HttpTool extends GetLifeCycle {
         }
       } else {
         if (onError != null) {
-          onError(
-            ErrorType.request,
-            environment == Environment.release
-                ? errorMsg
-                : response.statusMessage ?? errorMsg,
-          );
+          onError(ErrorType.request, errorMsg);
         }
       }
     } catch (e) {
@@ -296,10 +286,7 @@ class HttpTool extends GetLifeCycle {
         type = ErrorType.cancel;
       }
       if (!isClosed && onError != null) {
-        onError(
-          type,
-          environment == Environment.release ? errorMsg : e.toString(),
-        );
+        onError(type, errorMsg);
       }
     }
     return response;
@@ -333,12 +320,7 @@ class HttpTool extends GetLifeCycle {
         }
       } else {
         if (onError != null) {
-          onError(
-            ErrorType.request,
-            environment == Environment.release
-                ? errorMsg
-                : response.statusMessage ?? errorMsg,
-          );
+          onError(ErrorType.request, errorMsg);
         }
       }
     } catch (e) {
@@ -347,10 +329,7 @@ class HttpTool extends GetLifeCycle {
         type = ErrorType.cancel;
       }
       if (!isClosed && onError != null) {
-        onError(
-          type,
-          environment == Environment.release ? errorMsg : e.toString(),
-        );
+        onError(type, errorMsg);
       }
     }
     return response;

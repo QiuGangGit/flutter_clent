@@ -9,31 +9,7 @@ export 'http_tool.dart';
 export 'safe_tool.dart';
 export 'time_tool.dart';
 
-enum Environment {
-  release,
-  pre,
-  debug,
-}
-
-const Environment environment = Environment.debug;
-
-const String releaseUrl = "";
-const String preUrl = "";
-const String debugUrl = "";
-final String baseUrl = environment == Environment.release
-    ? releaseUrl
-    : environment == Environment.pre
-        ? preUrl
-        : debugUrl;
-
-const String releaseWebUrl = "";
-const String preWebUrl = "";
-const String debugWebUrl = "";
-final String webUrl = environment == Environment.release
-    ? releaseWebUrl
-    : environment == Environment.pre
-        ? preWebUrl
-        : debugWebUrl;
+const String baseUrl = "http://192.168.6.163:8080";
 
 class Tool {
   static Logic? capture<Logic extends GetxController>(
