@@ -197,26 +197,8 @@ class HttpTool extends GetLifeCycle {
         onReceiveProgress: onReceiveProgress,
       );
       if (response.statusCode == 200) {
-        dynamic body = response.data;
-        if (body is Map && body.containsKey("code")) {
-          int code = body["code"];
-          String msg = body["msg"];
-          switch (code) {
-            case 0:
-              if (onSuccess != null) {
-                onSuccess(body);
-              }
-              break;
-            default:
-              if (onError != null) {
-                onError(ErrorType.response, msg);
-              }
-              break;
-          }
-        } else {
-          if (onSuccess != null) {
-            onSuccess(body);
-          }
+        if (onSuccess != null) {
+          onSuccess(response.data);
         }
       } else {
         if (onError != null) {
