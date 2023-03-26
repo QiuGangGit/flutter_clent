@@ -101,6 +101,7 @@ class HomePage extends StatelessWidget {
                             fontSize: 14,
                           ),
                         ),
+                        SizedBox(width: 16),
                         Text(
                           "剩余人数：5人",
                           style: TextStyle(
