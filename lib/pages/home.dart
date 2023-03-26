@@ -4,18 +4,25 @@ class HomeLogic extends GetxController {
   static HomeLogic? logic() => Tool.capture(Get.find);
   final HttpTool _http = HttpTool.getHttp(HomeLogic);
 
-  List list = [{}, {}, {}, {}, {}];
+  List list = [];
 
   @override
   void onReady() {
     super.onReady();
+    loadData();
+  }
+
+  void loadData() {
     _http.get(
-      "/get_code",
-      query: {
-        "phone": 12345678901,
+      "/prize_list",
+      query: {},
+      onSuccess: (body) {
+        list = body["prizes"];
+        update();
       },
-      onSuccess: (body) {},
-      onError: (type, error) {},
+      onError: (type, error) {
+        Tool.showToast(error);
+      },
     );
   }
 }
@@ -43,7 +50,7 @@ class HomePage extends StatelessWidget {
                   16 + SafeTool.instance.safeBtm,
                 ),
                 itemBuilder: (context, index) {
-                  return _buildItem({});
+                  return _buildItem(logic.list[index]);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 16);
@@ -60,15 +67,17 @@ class HomePage extends StatelessWidget {
   Widget _buildItem(Map item) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {},
+      onTap: () {
+        // 去详情
+      },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Stack(
           children: [
-            const AspectRatio(
+            AspectRatio(
               aspectRatio: 1.8,
               child: ImageWidget(
-                "https://t7.baidu.com/it/u=852388090,130270862&fm=193&f=GIF",
+                item["prize_icon"],
                 width: double.infinity,
                 height: double.infinity,
               ),
@@ -86,9 +95,9 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "这是一个抽奖奖品的描述信息，那应该显示什么呢，你觉得呢，哈哈哈哈哈这是一个抽奖奖品的描述信息，那应该显示什么呢，你觉得呢，哈哈哈哈哈",
-                      style: TextStyle(
+                    Text(
+                      item["prize_desc"],
+                      style: const TextStyle(
                         color: getTextWhite,
                         fontSize: 16,
                         fontWeight: getBold,
@@ -98,26 +107,26 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Row(
-                      children: const [
+                      children: [
                         Text(
-                          "开奖人数：10人",
-                          style: TextStyle(
+                          "开奖人数：${item["user_count"] + item["remaining_count"]}人",
+                          style: const TextStyle(
                             color: getTextWhite,
                             fontSize: 14,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
-                          "参与人数：5人",
-                          style: TextStyle(
+                          "参与人数：${item["user_count"]}人",
+                          style: const TextStyle(
                             color: getTextWhite,
                             fontSize: 14,
                           ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Text(
-                          "剩余人数：5人",
-                          style: TextStyle(
+                          "剩余人数：${item["remaining_count"]}人",
+                          style: const TextStyle(
                             color: getTextWhite,
                             fontSize: 14,
                           ),
@@ -128,27 +137,28 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: getBlack25,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Transform.rotate(
-                    angle: 25,
-                    child: const Text(
-                      "已开奖",
-                      style: TextStyle(
-                        color: getTextWhite,
-                        fontSize: 55,
-                        fontWeight: getBold,
+            if (item["is_end"])
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: getBlack25,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: Transform.rotate(
+                      angle: 25,
+                      child: const Text(
+                        "已开奖",
+                        style: TextStyle(
+                          color: getTextWhite,
+                          fontSize: 55,
+                          fontWeight: getBold,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
