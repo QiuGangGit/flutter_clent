@@ -11,7 +11,8 @@ class DetailLogic extends GetxController {
 
   late int drawId;
   List personList = [];
-  late Map prizeInfo = {};
+  Map prizeInfo = {"name": "", "icon": "", "desc": ""};
+  bool isDraw = false;
 
   @override
   void onInit() {
@@ -48,10 +49,11 @@ class DetailLogic extends GetxController {
         HomeLogic.logic()?.loadData();
         Map map = {"user_id": HiveTool.getUserId()};
         personList.add(map);
+        isDraw = true;
         update();
       },
       onError: (type, error) {
-        Tool.showToast(error);
+        Tool.showToast("已开奖，不能再参与抽奖");
       },
     );
   }
@@ -77,9 +79,7 @@ class DetailPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            logic.personList.isNotEmpty
-                ? _buildListWidget()
-                : const SizedBox(),
+            Expanded(child: _buildListWidget()),
             const Spacer(),
             _buildBtnWidget(logic),
             const SizedBox(
@@ -99,7 +99,9 @@ class DetailPage extends StatelessWidget {
           child: Row(
             children: [
               ImageWidget(
-                logic.prizeInfo["icon"].toString().isEmpty
+                logic.prizeInfo["icon"]
+                    .toString()
+                    .isEmpty
                     ? ""
                     : logic.prizeInfo["icon"],
                 width: 100,
@@ -114,7 +116,9 @@ class DetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      logic.prizeInfo["name"].toString().isEmpty
+                      logic.prizeInfo["name"]
+                          .toString()
+                          .isEmpty
                           ? ""
                           : logic.prizeInfo["name"],
                       style: const TextStyle(
@@ -127,7 +131,9 @@ class DetailPage extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      logic.prizeInfo["desc"].toString().isEmpty
+                      logic.prizeInfo["desc"]
+                          .toString()
+                          .isEmpty
                           ? ""
                           : logic.prizeInfo["desc"],
                       style: const TextStyle(
@@ -150,18 +156,18 @@ class DetailPage extends StatelessWidget {
     return GetBuilder<DetailLogic>(builder: (logic) {
       return logic.personList.isNotEmpty
           ? ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                Map item = logic.personList[index];
-                return _buildItemWidget(item);
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 20,
-                );
-              },
-              itemCount: logic.personList.length,
-            )
+        // shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          Map item = logic.personList[index];
+          return _buildItemWidget(item);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(
+            height: 20,
+          );
+        },
+        itemCount: logic.personList.length,
+      )
           : const SizedBox();
     });
   }
@@ -194,23 +200,25 @@ class DetailPage extends StatelessWidget {
       onTap: () {
         logic.goDraw();
       },
-      child: Container(
-        height: 50,
-        margin: const EdgeInsets.symmetric(horizontal: 40),
-        decoration: BoxDecoration(
-          color: getHintBlack,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        alignment: Alignment.center,
-        child: const Text(
-          "去抽奖",
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.white,
-            fontWeight: getRegular,
+      child: GetBuilder<DetailLogic>(builder: (logic) {
+        return Container(
+          height: 50,
+          margin: const EdgeInsets.symmetric(horizontal: 40),
+          decoration: BoxDecoration(
+            color: getHintBlack,
+            borderRadius: BorderRadius.circular(8),
           ),
-        ),
-      ),
+          alignment: Alignment.center,
+          child:  Text(
+            !logic.isDraw ? "去参与抽奖" : "已参与抽奖",
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.white,
+              fontWeight: getRegular,
+            ),
+          ),
+        );
+      }),
     );
   }
 }
