@@ -69,6 +69,7 @@ class HomePage extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         // 去详情
+        Get.toNamed(Routes.detail, arguments: item["draw_record_id"]);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),

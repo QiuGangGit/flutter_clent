@@ -1,4 +1,5 @@
 import 'package:lottery/main.dart';
+import 'package:lottery/pages/detail.dart';
 import 'package:lottery/pages/launch.dart';
 import 'package:lottery/pages/login.dart';
 import 'package:lottery/pages/menu.dart';
@@ -9,6 +10,7 @@ class Routes {
   static String launch = "/launch";
   static String login = "/login";
   static String menu = "/menu";
+  static String detail = "/detail";
 
   static List<GetPage> get pages {
     return [
@@ -27,6 +29,10 @@ class Routes {
         name: menu,
         page: () => const MenuPage(),
         transition: Transition.noTransition,
+      ),
+      GetPage(
+        name: detail,
+        page: () => const DetailPage(),
       ),
     ];
   }
