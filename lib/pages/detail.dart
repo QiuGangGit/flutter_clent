@@ -1,4 +1,5 @@
 import 'package:lottery/main.dart';
+import 'package:lottery/pages/home.dart';
 
 class DetailLogic extends GetxController {
   static DetailLogic? logic(int drawId) =>
@@ -44,7 +45,8 @@ class DetailLogic extends GetxController {
         "user_id": HiveTool.getUserId(),
       },
       onSuccess: (body) {
-        Map map = {"name": HiveTool.getUserId()};
+        HomeLogic.logic()?.loadData();
+        Map map = {"user_id": HiveTool.getUserId()};
         personList.add(map);
         update();
       },
@@ -66,24 +68,24 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("奖品介绍"),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          width: Get.width,
-          height: Get.height,
-          child: Column(
-            children: [
-              _buildProductWidget(),
-              const SizedBox(
-                height: 20,
-              ),
-              _buildListWidget(),
-              // const Spacer(),
-              _buildBtnWidget(logic),
-              const SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
+      body: Container(
+        width: Get.width,
+        height: Get.height,
+        child: Column(
+          children: [
+            _buildProductWidget(),
+            const SizedBox(
+              height: 20,
+            ),
+            logic.personList.isNotEmpty
+                ? _buildListWidget()
+                : const SizedBox(),
+            const Spacer(),
+            _buildBtnWidget(logic),
+            const SizedBox(
+              height: 40,
+            ),
+          ],
         ),
       ),
     );
@@ -174,7 +176,7 @@ class DetailPage extends StatelessWidget {
           //   width: 10,
           // ),
           Text(
-            item["name"].toString(),
+            item["user_id"].toString(),
             style: const TextStyle(
               fontSize: 15,
               color: getTextBlack,
