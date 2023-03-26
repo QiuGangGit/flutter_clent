@@ -17,11 +17,17 @@ class MinePage extends StatelessWidget {
           title: const Text("我的"),
           actions: [
             IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.exit_to_app,
-                size: 24,
-                color: Colors.black,
+              onPressed: () {
+                HiveTool.logout();
+                Get.offAllNamed(Routes.login);
+              },
+              icon: Padding(
+                padding: EdgeInsets.only(right: 30),
+                child: const Icon(
+                  Icons.exit_to_app,
+                  size: 24,
+                  color: Colors.black,
+                ),
               ),
             ),
           ],
@@ -40,7 +46,9 @@ class MinePage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildItem(
                 "参与的抽奖",
-                () {},
+                () {
+                  Get.toNamed(Routes.award);
+                },
               ),
             ],
           ),
@@ -83,30 +91,33 @@ class MinePage extends StatelessWidget {
     String title,
     Function() onTap,
   ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: 60,
-      decoration: BoxDecoration(
-        color: getPlaceholderColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: getTextBlack,
-              fontSize: 16,
-              fontWeight: getBold,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        height: 60,
+        decoration: BoxDecoration(
+          color: getPlaceholderColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                color: getTextBlack,
+                fontSize: 16,
+                fontWeight: getBold,
+              ),
             ),
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.chevron_right,
-            size: 20,
-            color: Colors.black,
-          ),
-        ],
+            const Spacer(),
+            const Icon(
+              Icons.chevron_right,
+              size: 20,
+              color: Colors.black,
+            ),
+          ],
+        ),
       ),
     );
   }
