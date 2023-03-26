@@ -34,35 +34,37 @@ class AwardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text("中奖记录"),
-          elevation: 1,
-        ),
-        Expanded(
-          child: GetBuilder<AwardLogic>(
-            init: AwardLogic(),
-            builder: (logic) {
-              return ListView.separated(
-                padding: EdgeInsets.fromLTRB(
-                  16,
-                  16,
-                  16,
-                  16 + SafeTool.instance.safeBtm,
-                ),
-                itemBuilder: (context, index) {
-                  return _buildItem(logic.list[index]);
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 16);
-                },
-                itemCount: logic.list.length,
-              );
-            },
+    return Scaffold(
+      body: Column(
+        children: [
+          AppBar(
+            title: const Text("中奖记录"),
+            elevation: 1,
           ),
-        ),
-      ],
+          Expanded(
+            child: GetBuilder<AwardLogic>(
+              init: AwardLogic(),
+              builder: (logic) {
+                return ListView.separated(
+                  padding: EdgeInsets.fromLTRB(
+                    16,
+                    16,
+                    16,
+                    16 + SafeTool.instance.safeBtm,
+                  ),
+                  itemBuilder: (context, index) {
+                    return _buildItem(logic.list[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 16);
+                  },
+                  itemCount: logic.list.length,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -107,60 +109,32 @@ class AwardPage extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          "开奖人数：${item["user_count"] + item["remaining_count"]}人",
-                          style: const TextStyle(
-                            color: getTextWhite,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "参与人数：${item["user_count"]}人",
-                          style: const TextStyle(
-                            color: getTextWhite,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          "剩余人数：${item["remaining_count"]}人",
-                          style: const TextStyle(
-                            color: getTextWhite,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ),
-            if (item["is_end"])
-              Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: getBlack25,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Transform.rotate(
-                      angle: 25,
-                      child: const Text(
-                        "已开奖",
-                        style: TextStyle(
-                          color: getTextWhite,
-                          fontSize: 55,
-                          fontWeight: getBold,
-                        ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: getBlack25,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: Transform.rotate(
+                    angle: 25,
+                    child:  Text(
+                      item["status"]==0?"未开奖": item["status"]==1?"已中奖":"未中奖",
+                      style: TextStyle(
+                        color: getTextWhite,
+                        fontSize: 55,
+                        fontWeight: getBold,
                       ),
                     ),
                   ),
                 ),
               ),
+            ),
+
           ],
         ),
       ),
