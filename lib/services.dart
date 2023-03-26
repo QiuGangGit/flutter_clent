@@ -51,9 +51,6 @@ class HttpService extends GetxService {
   }
 
   Future<Map<String, dynamic>> getHeaders() async {
-    return {
-      "token": HiveTool.getToken(),
-      "userId": HiveTool.getUserId(),
-    };
+    return {};
   }
 }
