@@ -57,18 +57,18 @@ class MinePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
-        children: const [
-          ClipOval(
+        children: [
+          const ClipOval(
             child: Icon(
               Icons.account_circle,
               size: 80,
               color: Colors.black,
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Text(
-            "手机号:18810866623",
-            style: TextStyle(
+            "手机号：${HiveTool.getUserId()}",
+            style: const TextStyle(
               color: getTextBlack,
               fontSize: 20,
               fontWeight: getBold,
