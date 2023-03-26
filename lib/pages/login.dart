@@ -51,7 +51,7 @@ class LoginLogic extends GetxController {
       },
       onSuccess: (body) {
         Tool.showToast("登录成功");
-        HiveTool.login(phoneController.text);
+        HiveTool.login(text);
         Get.toNamed(Routes.menu);
 
       },
